@@ -112,10 +112,126 @@ public class Prologo {
         } while( numero2 < 20 );
         
         
+
+
+        // array 
+        String[] array = {"Freddy", "Alejandro", "Leal"};
+//        System.out.println( array[1] );
+//        for( String aux : array ){
+//            System.out.println( aux );
+//        }
+
+//        String[][] letras = {
+//            {"A", "B", "C"},
+//            {"D", "E", "F"},
+//            {"G", "H", "I"},
+//        };
+//        System.out.println( letras[2][1] );
+        
+        
+        // arraylist (SON COMO LAS LISTAS EN PYTHON)
+//        lista = []
+//        for item in range(100):
+//            lista.append(item)
+        
+//        ArrayList<Integer> miLista = new ArrayList<>();
+//        for(int item=0; item < 100; item++){
+//            miLista.add( item );
+//        }
+//        
+//        System.out.println( miLista.size() );
+//        for( int item : miLista ){
+//            System.out.println( item );
+//        }
+        
+        
+        // MAP (PARACIDOS A LOS DICCIONARIOS DE PYTHON)
+        
+//        persona = {}
+//        persona['nombre'] = 'Freddy'
+//        persona['edad'] = 32
+
+//        Map<String, Object> persona = new HashMap();
+//        persona.put("nombre", "Freddy");
+//        persona.put("edad", 32);
+//        
+//        int edad = (int) persona.get("edad");
+//        System.out.println("La edad es: " + edad);
+
+
+        
+        // Operadores matematicos
+        // + - * / %
+//        int x = 5;
+//        int y = (int) Math.pow(5, 2);
+//        System.out.println(y);
+//        int z = (int) Math.sqrt(y);
+//        System.out.println(z);
         
         
         
+        // operadores logicos 
+        // == != < > <= >=  .equals
+        // &&(and) ||(or)
+        
+//        if( true && true){
+//            System.out.println("Es verdad");
+//        } else {
+//            System.out.println("Es Mentira");
+//        }
+        
+//        if( true || false){
+//            System.out.println("Es verdad");
+//        } else {
+//            System.out.println("Es Mentira");
+//        }
+
+        
+        // Números aleatorios 
+//        System.out.println( (int) (Math.random()*10 + 1) );
+//        Random numeroAleatorio = new Random();
+//        System.out.println( numeroAleatorio.nextInt(10) );
+        
+        
+//        BigDecimal numeros = new BigDecimal(0);
+//        System.out.println(  ((Object)numeros).getClass().getSimpleName()  );
+        
+        
+        // exception
+        int a = 3;
+        int c = 0;
+        
+//        try{
+//            int d = a / c; 
+//        } catch( ArithmeticException err ){
+//            System.out.println("No se puede dividir por cero.");
+//        }
+        
+//        try{
+//            int h = Integer.parseInt("asdf");
+//        } catch( java.lang.NumberFormatException err){
+//            System.out.println("Esto no es un número");
+//        } catch( ArithmeticException err ){
+//            System.out.println("No se puede dividir por cero.");
+//        } finally {
+//            System.out.println("Siempre se ejecuta");
+//        }
+//        
+        
+//        try{
+//            // hago lo que sea
+//        } catch(Exception err){
+//            
+//        }
+
+        
+        saludar("Freddy");
     }
+
+    public static void saludar(String nombre){
+        System.out.println("Hola " + nombre);
+    }
+    
     
 }
  

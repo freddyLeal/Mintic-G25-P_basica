@@ -1,11 +1,21 @@
 package hotel;
 
 
-public class Food {
+public class Food extends Object {
     
-    public String type;
-    public double price;
-    public int quantity;
+    private String type;
+    private double price;
+    private int quantity;
+
+    
+    public Food(String type, double price, int quantity) {
+//        this.type = type;
+//        this.price = price;
+//        this.quantity = quantity;
+    }
+    
+    
+    
     
     
 }

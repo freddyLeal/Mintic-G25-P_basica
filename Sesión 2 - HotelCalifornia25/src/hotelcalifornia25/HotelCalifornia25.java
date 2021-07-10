@@ -14,6 +14,7 @@ public class HotelCalifornia25 {
         Scanner in = new Scanner( System.in );
         int option;
         int roomType;
+        int roomNumber;
         
         while( runSowtware ){
             
@@ -43,10 +44,50 @@ public class HotelCalifornia25 {
                     Hotel.getAvailableRooms( roomType );
                     break;
                 case 2:
+                    System.out.println("\nTipo de habitación:\n1. Doble de lujo\n2. Doble sencilla\n3. De lujo\n4. Sencilla");
+                    System.out.print("Opción: ");
+                    roomType = in.nextInt();
+                    Hotel.bookingRoom( roomType );
                     break;
                 case 3:
+                    System.out.print("Número de habitación: ");
+                    roomNumber = in.nextInt();
+                    roomType = 0;
+                    if( roomNumber > 60 ){
+                        System.out.println("La habitación no existe");
+                    } else if( roomNumber > 40 ){
+                        roomType = 4;
+                    } else if( roomNumber > 21 ){
+                        roomType = 3;
+                    } else if( roomNumber > 11 ){
+                        roomType = 2;
+                    } else if( roomNumber >= 1 ){
+                        roomType = 1;
+                    } else {
+                        System.out.println("La habitación no existe");
+                    }
+                    if( roomType != 0)
+                        Hotel.deallocateRoom(roomNumber, roomType);
                     break;
                 case 4:
+                    System.out.print("Número de habitación: ");
+                    roomNumber = in.nextInt();
+                    roomType = 0;
+                    if( roomNumber > 60 ){
+                        System.out.println("La habitación no existe");
+                    } else if( roomNumber > 40 ){
+                        roomType = 4;
+                    } else if( roomNumber > 21 ){
+                        roomType = 3;
+                    } else if( roomNumber > 11 ){
+                        roomType = 2;
+                    } else if( roomNumber >= 1 ){
+                        roomType = 1;
+                    } else {
+                        System.out.println("La habitación no existe");
+                    }
+                    if( roomType != 0)
+                        Hotel.orderFood(roomNumber, roomType);
                     break;
                 case 5:
                     runSowtware = false;

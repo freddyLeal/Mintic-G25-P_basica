@@ -1,5 +1,6 @@
 package hotel;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -8,40 +9,49 @@ public class Hotel {
     public static Holder holder = new Holder();
     
     
-    public static void getAvailableRooms(int roomType){
+    public static ArrayList<String> getAvailableRooms(int roomType){
+        ArrayList<String> data = new ArrayList();
         String emptyRooms = "";
         int countEmptyRooms = 0;
         switch(roomType){
             case 1:
                 for(int j = 0; j < holder.luxury_double_room.length; j++){
                     if( holder.luxury_double_room[j] == null ){
-                        emptyRooms += (j+1) + ", ";
-                        countEmptyRooms++;
+                        data.add( (j+1) + ". Doble de lujo" );
+                    } else {
+                        data.add( (j+1) + ". Ocupada" );
                     }
+                    countEmptyRooms++;
                 }
                 break;
             case 2:
                 for(int j = 0; j < holder.single_double_room.length; j++){
                     if( holder.single_double_room[j] == null ){
-                        emptyRooms += (j+11) + ", ";
-                        countEmptyRooms++;
+                        data.add( (j+11) + ". Doble" );
+                    } else {
+                        data.add( (j+11) + ". Ocupada" );
                     }
+                    countEmptyRooms++;
                 }
                 break;
             case 3:
                 for(int j = 0; j < holder.luxury_simple_room.length; j++){
                     if( holder.luxury_simple_room[j] == null ){
-                        emptyRooms += (j+21) + ", ";
-                        countEmptyRooms++;
+                        data.add( (j+21) + ". Sencilla de lujo" );
+                    } else {
+                        data.add( (j+21) + ". Ocupada" );
                     }
+                    countEmptyRooms++;
                 }
                 break;
             case 4:
                 for(int j = 0; j < holder.single_simple_room.length; j++){
                     if( holder.single_simple_room[j] == null ){
-                        emptyRooms += (j+41) + ", ";
-                        countEmptyRooms++;
+                        data.add( (j+41) + ". Sencilla" );
+                    } else {
+                        data.add( (j+41) + ". Ocupada" );
                     }
+                    countEmptyRooms++;
                 }
                 break;
             default:
@@ -51,10 +61,27 @@ public class Hotel {
         if( emptyRooms.length() > 1){
             emptyRooms = emptyRooms.substring(0, emptyRooms.length()-2);
         }
-        System.out.println("Las habitaciones vacias son: " + emptyRooms);
-        System.out.println("Número de habitaciones vacias: " + countEmptyRooms);
+        
+        return data;
     }
     
+    
+    public static void bookingRoomFormView(Room room, int roomType, int realNumberRoom){
+        switch( roomType ){
+            case 1:
+                holder.luxury_double_room[ realNumberRoom ] = (DoubleRoom) room;
+                break;
+            case 2:
+                holder.single_double_room[ realNumberRoom ] = (DoubleRoom) room;
+                break;
+            case 3:
+                holder.luxury_simple_room[ realNumberRoom ] = room;
+                break;
+            case 4:
+                holder.single_simple_room[ realNumberRoom ] = room;
+                break;
+        }
+    }
     
     public static void bookingRoom(int roomType){
         System.out.println("");
@@ -95,6 +122,8 @@ public class Hotel {
             case 5:
                 System.out.println("No es una opción valida");
         }
+        
+        
     }
     
     

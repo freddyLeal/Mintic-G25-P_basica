@@ -17,6 +17,7 @@ public class Write implements Runnable {
     @Override
     public void run() {
         try{
+            System.out.println("Guardando información");
             FileOutputStream fos = new FileOutputStream("backup");
             ObjectOutputStream oos = new ObjectOutputStream( fos );
             oos.writeObject( this.holder );

@@ -62,5 +62,110 @@ DELETE FROM `colombia`.`municipio` WHERE  `id`=5;
 DELETE FROM `colombia`.`municipio` WHERE  `id`=4;
 
 
--- R -> Read
-select * from departamento;
+
+-- todos los datos de una tabla
+SELECT * FROM municipio;
+
+--solo una columna
+SELECT nombre FROM municipio;
+
+-- alias
+SELECT nombre AS name, codigo AS code FROM municipio;
+
+-- alias de tablas
+SELECT nombre AS name, codigo AS CODE 
+FROM municipio AS mu;
+
+SELECT mu.nombre, mu.codigo AS code
+FROM municipio AS mu;
+
+-- Join
+SELECT dep.nombre, dep.codigo, mun.nombre, mun.codigo, ca.id
+FROM municipio AS mun
+LEFT JOIN departamento dep ON dep.id = mun.departamento_id;
+
+
+-- limit
+SELECT dep.nombre, dep.codigo, mun.nombre, mun.codigo, ca.id
+FROM municipio AS mun
+LEFT JOIN departamento dep ON dep.id = mun.departamento_id
+LEFT JOIN casos ca ON ca.municipio_id = mun.id
+LIMIT 5;
+
+
+-- count
+SELECT COUNT(*) FROM casos ca;
+
+
+-- where 
+SELECT COUNT(*)
+FROM casos ca
+WHERE edad = 30 
+LIMIT 100;
+
+SELECT COUNT(*)
+FROM casos ca
+WHERE sexo = 'F' 
+LIMIT 100;
+
+SELECT COUNT(*)
+FROM casos ca
+WHERE edad = 30 AND edad = 35
+LIMIT 100;
+
+SELECT COUNT(*)
+FROM casos ca
+WHERE edad = 30 OR edad = 35
+LIMIT 100;
+
+SELECT COUNT(*)
+FROM casos ca
+WHERE edad >= 30 and edad <= 35
+LIMIT 100;
+
+
+-- LIKE 
+SELECT *
+FROM casos ca
+WHERE ca.pais_importado LIKE '%SPA%'
+LIMIT 1000;
+
+
+-- IS NULL y IS NOT NULL
+SELECT *
+FROM casos ca
+WHERE ca.fecha_recuperacion IS NOT NULL
+LIMIT 1000;
+
+SELECT COUNT(*)
+FROM casos ca
+WHERE edad <> 20
+LIMIT 100;
+
+
+-- group by 
+SELECT edad
+FROM casos ca
+GROUP BY edad
+
+SELECT edad, COUNT( edad ) 
+FROM casos ca
+GROUP BY edad
+
+-- order by 
+SELECT edad, COUNT( edad ) 
+FROM casos ca
+GROUP BY edad
+ORDER BY edad asc
+
+SELECT edad, COUNT( edad ) 
+FROM casos ca
+GROUP BY edad
+ORDER BY edad desc
+
+-- top 10
+SELECT edad, COUNT( edad ) 
+FROM casos ca
+GROUP BY edad
+ORDER BY COUNT( edad ) DESC
+LIMIT 10;

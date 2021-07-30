@@ -5,11 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import utils.db.DB;
+import utils.db.Models;
 
 
-public class Municipio {
-    private DB db = new DB();
-    
+public class Municipio extends Models{
     private Integer id;
     private String nombre;
     private Integer codigo;
@@ -17,13 +16,13 @@ public class Municipio {
 
     
     public Municipio() {
-    }
+    }   
     
-
-    public Municipio getById(Integer id){
+    @Override
+    public Object find(Integer id) {
         Municipio municipio = null;
         
-        try(Connection conn = db.conectar()){
+        try(Connection conn = super.conectar()){
             String query = "SELECT m.id, m.nombre, m.codigo, m.departamento_id "
                     + "     FROM municipio m "
                     + "     LEFT JOIN departamento dep on dep.id = m.departamento_id"
@@ -39,10 +38,10 @@ public class Municipio {
                 if( row_count > 1)
                     throw new Exception("Se encontro más de un registro con el id="+id);
                             
-                this.id = result.getInt("id");
-                this.nombre = result.getString("nombre");
-                this.codigo = result.getInt("codigo");
-                this.departamento = new Departamento().getById( result.getInt("departamento_id") );
+                this.setId((Integer) result.getInt("id"));
+                this.setNombre(result.getString("nombre"));
+                this.setCodigo((Integer) result.getInt("codigo"));
+                this.setDepartamento((Departamento) new Departamento().find(result.getInt("departamento_id") ));
                 municipio = this;
             }
             
@@ -55,22 +54,33 @@ public class Municipio {
         
         return municipio;
     }
-    
-    
-    
-    public Integer createMunicipio(){
+
+    @Override
+    public Integer save(){
         Integer id = null;
-        try(Connection conn = db.conectar()){
-            String query = "INSERT INTO municipio (departamento_id, nombre, codigo) "
-                    + "     VALUES (?, ?, ?);";
+        String query;
+        try(Connection conn = super.conectar()){
+            
+            if( this.getId() == null){
+                query = "INSERT INTO municipio (departamento_id, nombre, codigo) "
+                    + "  VALUES (?, ?, ?);";
+            } else {
+                query = "UPDATE municipio set departamento_id=?, nombre=?, codigo=?"
+                    + "  WHERE id = ? ";
+            }
+            
             PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             
-            if(this.departamento == null)
+            if(this.getDepartamento() == null)
                 throw new Exception("El departamento es obligatorio para crear un municipio.");
             
-            statement.setInt(1, this.departamento.getId() );
-            statement.setString(2, this.nombre);
-            statement.setInt(3, this.codigo);
+            statement.setInt(1, this.getDepartamento().getId() );
+            statement.setString(2, this.getNombre());
+            statement.setInt(3, this.getCodigo());
+            
+            if( this.getId() != null)
+                statement.setInt(4, this.getId());
+            
             int rows = statement.executeUpdate();
             
             if( rows > 0){
@@ -85,10 +95,20 @@ public class Municipio {
         
         return id;
     }
-    
-    
-    
-    
+
+    @Override
+    public void delete() {
+        try(Connection conn = super.conectar()){
+            String query = "DELETE FROM municipio WHERE id = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, this.getId());
+            statement.executeUpdate();
+        } catch(Exception e){
+            e.printStackTrace();
+            System.err.println("No se puede eliminar el registro id= " + this.getId() + " de la tabla municipio");
+        }
+    }
+
     /**
      * @return the id
      */
@@ -145,6 +165,11 @@ public class Municipio {
         this.departamento = departamento;
     }
 
+    
+    
+    
+
+    
     
     
     

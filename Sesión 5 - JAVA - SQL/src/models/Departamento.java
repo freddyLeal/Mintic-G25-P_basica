@@ -3,25 +3,29 @@ package models;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import utils.db.DB;
+import utils.db.Models;
 
 
-public class Departamento {
+public class Departamento extends Models{
     private DB db = new DB();
     
     private Integer id;
     private String nombre;
     private Integer codigo;
 
+    
     public Departamento() {
     }
     
     
     
-    public Departamento getById(Integer id){
+    @Override
+    public Object find(Integer id) {
         Departamento dep = null;
         
-        try(Connection conn = db.conectar()){
+        try(Connection conn = super.conectar()){
             String query = "SELECT dep.id, dep.nombre, dep.codigo FROM departamento dep WHERE dep.id = ?";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, id);
@@ -49,8 +53,59 @@ public class Departamento {
         
         return dep;
     }
+
     
+    @Override
+    public Integer save() {
+        Integer id = null;
+        String query;
+        try(Connection conn = super.conectar()){
+            
+            if( this.getId() == null){
+                query = "INSERT INTO departamento (nombre, codigo) "
+                    + "  VALUES (?, ?);";
+            } else {
+                query = "UPDATE departamento set nombre=?, codigo=?"
+                    + "  WHERE id = ? ";
+            }
+            
+            PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            
+            statement.setString(1, this.getNombre());
+            statement.setInt(2, this.getCodigo());
+            
+            if( this.getId() != null)
+                statement.setInt(3, this.getId());
+            
+            int rows = statement.executeUpdate();
+            
+            if( rows > 0){
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if( generatedKeys.next() )
+                    id = generatedKeys.getInt(1);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+            System.err.println("No se puedo crear el registro en la tabla departamento.");
+        }
+        
+        return id;
+    }
     
+
+    @Override
+    public void delete() {
+        try(Connection conn = super.conectar()){
+            String query = "DELETE FROM departamento WHERE id = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, this.getId());
+            statement.executeUpdate();
+        } catch(Exception e){
+            e.printStackTrace();
+            System.err.println("No se puede eliminar el registro id= " + this.getId() + " de la tabla departamento");
+        }
+    }
+
     
     
 
@@ -95,6 +150,10 @@ public class Departamento {
     public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
+
+   
+    
+    
     
     
 }

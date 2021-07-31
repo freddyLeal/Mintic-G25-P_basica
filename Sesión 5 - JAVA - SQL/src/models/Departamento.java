@@ -21,6 +21,39 @@ public class Departamento extends Models{
     
     
     
+    public Object findByCode(Integer code) {
+        Departamento dep = null;
+        
+        try(Connection conn = super.conectar()){
+            String query = "SELECT dep.id, dep.nombre, dep.codigo FROM departamento dep WHERE dep.codigo = ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, code);
+            ResultSet result = statement.executeQuery();
+            
+            int row_count = 0;
+            while( result.next() ){
+                row_count++;
+                
+                if( row_count > 1)
+                    throw new Exception("Se encontro más de un registro con el codigo="+code);
+                            
+                this.id = result.getInt("id");
+                this.nombre = result.getString("nombre");
+                this.codigo = result.getInt("codigo");
+                dep = this;
+            }
+            
+            if( row_count == 0)
+                throw new Exception("No se encontro el registro con el codigo="+code+" en la tabla departamento");
+            
+        } catch(Exception e){
+            System.out.println("No se puede encontrar el elemento codigo=" + code + " de la tabla Departamento");
+        }
+        
+        return dep;
+    }
+    
+    
     @Override
     public Object find(Integer id) {
         Departamento dep = null;

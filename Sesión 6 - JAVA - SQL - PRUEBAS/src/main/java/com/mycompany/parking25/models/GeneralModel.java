@@ -1,5 +1,8 @@
 package models;
 
+
+import com.mycompany.parking25.models.ParkingLog;
+import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +24,24 @@ public class GeneralModel extends Models{
     
     
     
+    public List<ParkingLog> getParkingLogListByParking(Integer parkingId) throws Exception{
+        List<ParkingLog> parkingLogList = new ArrayList();
+        try(Connection conn = conectar()){
+            String query = "SELECT id, code, car_number, arrived, departure, minutes, parking_i "
+                + "     FROM parking_log  WHERE parking_i = ? order by id desc";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, parkingId);
+            
+            ResultSet result = statement.executeQuery();
+            while( result.next() ){
+                parkingLogList.add( ParkingLog.rowMapper( result ) );
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return parkingLogList;
+    }
     
     
     @Override

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import utils.db.Models;
 
@@ -91,7 +92,38 @@ public class Parking extends Models{
 
     @Override
     public Integer save() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query;
+        
+        try(Connection conn = conectar()){
+            if( this.id == null )
+                query = "INSERT INTO parking (id, code, is_free, car_number, arrived) VALUES (?, ?, ?, ?, ?)";
+            else
+                query = "UPDATE parking SET code=?, is_free=?, car_number=?, arrived=? WHERE id=? ";
+           
+            PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, this.code);
+            statement.setBoolean(2, this.isFree);
+            statement.setString(3, this.carNumber);
+            statement.setTimestamp(4, this.arrived);
+            
+            if( this.id != null ){
+                statement.setInt(5, this.id);
+            }
+            
+            int rows = statement.executeUpdate();
+            
+            if( rows > 0 ){
+                ResultSet generateKeys = statement.getGeneratedKeys();
+                if( generateKeys.next() )
+                    this.id = generateKeys.getInt(1);
+            }
+                    
+        } catch(Exception e){
+            e.printStackTrace();
+            throw new Exception("Error al crear/editar el registro en la tabla parking");
+        }
+        
+        return this.id;
     }
 
     @Override

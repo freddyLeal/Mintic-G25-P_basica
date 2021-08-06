@@ -5,7 +5,6 @@
  */
 package com.mycompany.parking25;
 
-import com.mycompany.parking25.models.Parking;
 import com.mycompany.parking25.views.View;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,10 +13,8 @@ public class main {
     public static void main(String[] args){
         
         try {
-            Parking par = (Parking) new Parking().find(1);
-            System.out.println( par.getCode() );
-//        View view = new View();
-//        view.show();
+        View view = new View();
+        view.show();
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("Error");

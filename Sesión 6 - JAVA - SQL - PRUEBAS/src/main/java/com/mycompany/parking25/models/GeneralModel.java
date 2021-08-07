@@ -1,6 +1,7 @@
 package models;
 
 
+import com.mycompany.parking25.models.Parking;
 import com.mycompany.parking25.models.ParkingLog;
 import java.util.List;
 import java.sql.Connection;
@@ -58,5 +59,35 @@ public class GeneralModel extends Models{
     public void delete() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public List<Parking> getParkingList(Boolean isFree) {
+        List<Parking> parkingList = new ArrayList();
+        String query = "";
+        try(Connection conn = conectar()){
+            if( isFree != null)
+                query = "SELECT p.id, p.code, p.is_free, p.car_number, p.arrived "
+                        + "     FROM parking p WHERE p.is_free = ? ";
+            else
+                query = "SELECT p.id, p.code, p.is_free, p.car_number, p.arrived "
+                        + "     FROM parking p ";
+            PreparedStatement statement = conn.prepareStatement(query);
+            
+            if( isFree != null)
+                statement.setBoolean(1, isFree);
+            
+            ResultSet result = statement.executeQuery();
+            while( result.next() ){
+                parkingList.add( Parking.rowMapper( result ) );
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return parkingList;
+    }
+
+    
+
+    
     
 }

@@ -12,9 +12,9 @@ public class DB {
     
     private String driverTest = "org.h2.Driver";
     private String userTest = "root";
-    private String passwordTest = "jdbc:h2:mem:test;MODE=MYSQL;INIT=RUNSCRIPT FROM 'C:/Users/user/Desktop/model_parking.sql';DB_CLOSE_DELAY=-1";
+    private String passwordTest = "";
     private String urlTest = "jdbc:h2:mem:test;MODE=MYSQL;";
-    private String urlInitTest = "";
+    private String urlInitTest = "jdbc:h2:mem:test;MODE=MYSQL;INIT=RUNSCRIPT FROM 'C:/Users/user/Desktop/model_parking.sql';DB_CLOSE_DELAY=-1";
     
     public DB() {
         try{

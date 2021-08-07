@@ -445,7 +445,7 @@ public class View extends javax.swing.JFrame {
 
     private void btnAsignarParkingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarParkingActionPerformed
         try {
-//            this.parkingCtr.setArrivedToParking(this.freeParkingIdSelected.intValue(), this.inputPlaca.getText() );
+            this.parkingCtr.setArrivedToParking(this.freeParkingIdSelected.intValue(), this.inputPlaca.getText() );
             this.freeParkingIdSelected = null;
             this.inputPlaca.setText("");
             this.showPanels();
@@ -507,7 +507,7 @@ public class View extends javax.swing.JFrame {
 
     private void btnDepartureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDepartureActionPerformed
         try {
-//            this.parkingCtr.setDepartureToParking( this.notFreeParkingIdSelected );
+            this.parkingCtr.setDepartureToParking( this.notFreeParkingIdSelected );
             this.parkingLogSelected = parkingCtr.getParkingLogByParkingId(this.notFreeParkingIdSelected);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
@@ -540,8 +540,7 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_btnImprimirActionPerformed
     
     private void fillFreeParking(){
-        List<Parking> parkingList = new ArrayList();
-//        List<Parking> parkingList = parkingCtr.getParkingListFree();
+        List<Parking> parkingList = parkingCtr.getFreeParkingList();
         DefaultListModel model = new DefaultListModel();
         
         int count = 0;
@@ -554,8 +553,7 @@ public class View extends javax.swing.JFrame {
     }
     
     private void fillNotFreeParking(){
-        List<Parking> parkingList = new ArrayList();
-//        List<Parking> parkingList = parkingCtr.getParkingListNotFree();
+        List<Parking> parkingList = parkingCtr.getNotFreeParkingList();
         DefaultListModel model = new DefaultListModel();
         
         int count = 0;
@@ -568,8 +566,7 @@ public class View extends javax.swing.JFrame {
     }
     
     private void fillAllParking(){
-        List<Parking> parkingList = new ArrayList();
-//        List<Parking> parkingList = parkingCtr.getAllParkingList();
+        List<Parking> parkingList = parkingCtr.getAllParkingList();
         DefaultListModel model = new DefaultListModel();
         
         int count = 0;
